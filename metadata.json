@@ -1,0 +1,5 @@
+{
+  "name": "InterviewGenie AI",
+  "description": "Ultimate Professional AI Interview Questions Generator with Mock Interview Timer, PDF/TXT export, and Company-specific tailoring.",
+  "requestFramePermissions": ["microphone"]
+}
