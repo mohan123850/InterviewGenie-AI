@@ -31,8 +31,14 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { jsPDF } from 'jspdf';
 
-// Initialize Gemini AI
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+// Helper to get GoogleGenAI instance
+const getGenAI = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is missing. If you have deployed this app, please add GEMINI_API_KEY to your environment variables in your deployment platform (e.g., Vercel, Netlify).");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 type Category = 'Mixed' | 'Technical' | 'HR' | 'Behavioral';
 type Experience = 'Fresher' | '1-3 Years' | '3+ Years';
@@ -240,6 +246,7 @@ export default function App() {
     setTranscript('');
     
     try {
+      const ai = getGenAI();
       const model = "gemini-3-flash-preview";
       const prompt = `You are a professional job interview questions generator.
       Generate 30 real-time job interview questions for the role: "${jobRole}".
@@ -266,7 +273,7 @@ export default function App() {
       ...
       30. [Question 30]`;
 
-      const response = await genAI.models.generateContent({
+      const response = await ai.models.generateContent({
         model: model,
         contents: prompt,
       });
@@ -297,9 +304,9 @@ export default function App() {
       });
 
       setQuestions(categorizedQuestions);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error generating questions:", err);
-      setError("Something went wrong while generating questions. Please try again.");
+      setError(err.message || "Something went wrong while generating questions. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -314,6 +321,7 @@ export default function App() {
     setQuestions(newQuestions);
 
     try {
+      const ai = getGenAI();
       const model = "gemini-3-flash-preview";
       const prompt = `As an expert interviewer, provide a concise sample answer or key points to cover for this interview question: "${question.text}" for the role of "${jobRole}" at ${experience} level.
       
@@ -323,7 +331,7 @@ export default function App() {
       
       Keep it professional and practical.`;
 
-      const response = await genAI.models.generateContent({
+      const response = await ai.models.generateContent({
         model: model,
         contents: prompt,
       });
