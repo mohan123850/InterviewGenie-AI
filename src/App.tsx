@@ -212,6 +212,7 @@ export default function App() {
       console.error("Speech recognition error", event.error);
       setIsListening(false);
       setTranscript('Error occurred. Try again.');
+      alert("Voice error occurred");
     };
 
     recognition.onend = () => {
@@ -804,11 +805,11 @@ export default function App() {
                     <span>Preparation Progress</span>
                     <span>{Math.round(progress)}%</span>
                   </div>
-                  <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
+                  <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${progress}%` }}
-                      className="h-full bg-indigo-600 shadow-[0_0_10px_rgba(79,70,229,0.5)] rounded-full"
+                      className="h-full bg-[#6c5ce7] shadow-[0_0_10px_rgba(108,92,231,0.5)] rounded-full"
                     />
                   </div>
                 </div>
