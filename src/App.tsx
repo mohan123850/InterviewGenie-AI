@@ -33,9 +33,9 @@ import { jsPDF } from 'jspdf';
 
 // Helper to get GoogleGenAI instance
 const getGenAI = () => {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error("GEMINI_API_KEY is missing. If you have deployed this app, please add GEMINI_API_KEY to your environment variables in your deployment platform (e.g., Vercel, Netlify).");
+    throw new Error("VITE_GEMINI_API_KEY is missing. If you have deployed this app, please add VITE_GEMINI_API_KEY to your environment variables in your deployment platform (e.g., Vercel, Netlify).");
   }
   return new GoogleGenAI({ apiKey });
 };
