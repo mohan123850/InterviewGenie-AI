@@ -68,39 +68,6 @@ export default function App() {
 
   const progress = questions.length > 0 ? (answeredQuestions.size / questions.length) * 100 : 0;
 
-  // Load data from localStorage on mount
-  useEffect(() => {
-    const savedRole = localStorage.getItem('interview_jobRole');
-    const savedCategory = localStorage.getItem('interview_category');
-    const savedExperience = localStorage.getItem('interview_experience');
-    const savedDifficulty = localStorage.getItem('interview_difficulty');
-    const savedCompany = localStorage.getItem('interview_company');
-    const savedQuestions = localStorage.getItem('interview_questions');
-    const savedDarkMode = localStorage.getItem('interview_darkMode');
-    const savedLibrary = localStorage.getItem('interview_library');
-
-    if (savedRole) setJobRole(savedRole);
-    if (savedCategory) setCategory(savedCategory as Category);
-    if (savedExperience) setExperience(savedExperience as Experience);
-    if (savedDifficulty) setDifficulty(savedDifficulty as Difficulty);
-    if (savedCompany) setCompany(savedCompany as Company);
-    if (savedQuestions) setQuestions(JSON.parse(savedQuestions));
-    if (savedDarkMode) setDarkMode(savedDarkMode === 'true');
-    if (savedLibrary) setSavedInterviews(JSON.parse(savedLibrary));
-  }, []);
-
-  // Save data to localStorage on changes
-  useEffect(() => {
-    localStorage.setItem('interview_jobRole', jobRole);
-    localStorage.setItem('interview_category', category);
-    localStorage.setItem('interview_experience', experience);
-    localStorage.setItem('interview_difficulty', difficulty);
-    localStorage.setItem('interview_company', company);
-    localStorage.setItem('interview_questions', JSON.stringify(questions));
-    localStorage.setItem('interview_darkMode', darkMode.toString());
-    localStorage.setItem('interview_library', JSON.stringify(savedInterviews));
-  }, [jobRole, category, experience, difficulty, company, questions, darkMode, savedInterviews]);
-
   // Timer logic
   useEffect(() => {
     let interval: any;
@@ -131,8 +98,6 @@ export default function App() {
     setSearchQuery('');
     setTimer(1800);
     setIsTimerActive(false);
-    localStorage.removeItem('interview_jobRole');
-    localStorage.removeItem('interview_questions');
   };
 
   const formatTime = (seconds: number) => {
